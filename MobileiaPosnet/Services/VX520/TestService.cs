@@ -23,7 +23,7 @@ namespace MobileiaPosnet.Services.VX520
                 return StartCommand();
             }else if (_numStep == 1)
             {
-                if (hex.CompareTo("06") == 0)
+                if (hex.CompareTo("06 ") == 0)
                 {
                     _numStep++;
                     return "02 54 45 53 00 00 03 41";
@@ -41,7 +41,7 @@ namespace MobileiaPosnet.Services.VX520
                 {
                     _numStep++;
                     _listener.complete(true, "");
-                    return "06";
+                    return "";
                 }
             }
 

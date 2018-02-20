@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using MobileiaPosnet.Services;
+using System.Threading;
 
 namespace MobileiaPosnet
 {
@@ -53,11 +54,10 @@ namespace MobileiaPosnet
             try
             {
                 //Verificar si el puerto esta abierto y cerrarlo
-                if (comPort.IsOpen == true) {
-                    comPort.Close();
+                if (comPort.IsOpen == false) {
+                    // Abrir puerto
+                    comPort.Open();
                 }
-                // Abrir puerto
-                comPort.Open();
                 Console.WriteLine("Puerto abierto a las: " + DateTime.Now);
                 return true;
             }
@@ -139,6 +139,8 @@ namespace MobileiaPosnet
             byte[] comBuffer = new byte[bytes];
             //read the data and store it
             comPort.Read(comBuffer, 0, bytes);
+            // Esperar medio segundo para recibir la data correctamente
+            Thread.Sleep(500);
             //display the data to the user
             Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
             comPort_SendData(currentService.WriteData(ByteToHex(comBuffer)));
