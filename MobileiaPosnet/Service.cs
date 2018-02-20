@@ -19,7 +19,6 @@ namespace MobileiaPosnet
 
         public string WriteData(string hex)
         {
-
             return "";
         }
        
