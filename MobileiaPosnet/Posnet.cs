@@ -107,6 +107,8 @@ namespace MobileiaPosnet
                 return;
             }
 
+            Console.WriteLine("Mensaje enviado: " + msg);
+
             try
             {
                 //convert the message to byte array
@@ -115,8 +117,7 @@ namespace MobileiaPosnet
                 comPort.Write(newMsg, 0, newMsg.Length);
                 //convert back to hex and display
                 string hex = ByteToHex(newMsg);
-                comPort_SendData(currentService.WriteData(hex));
-                Console.WriteLine(hex);
+                
             }
             catch (FormatException ex)
             {
@@ -139,7 +140,8 @@ namespace MobileiaPosnet
             //read the data and store it
             comPort.Read(comBuffer, 0, bytes);
             //display the data to the user
-            Console.WriteLine(ByteToHex(comBuffer));
+            Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
+            comPort_SendData(currentService.WriteData(ByteToHex(comBuffer)));
         }
 
         #region HexToByte

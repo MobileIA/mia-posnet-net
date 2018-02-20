@@ -30,7 +30,6 @@ namespace Example
         void CompleteService.complete(bool success, string data)
         {
             Console.WriteLine("Se completo el servicio");
-            throw new NotImplementedException();
         }
     }
 }

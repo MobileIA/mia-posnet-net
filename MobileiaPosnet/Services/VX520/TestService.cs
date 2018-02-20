@@ -14,7 +14,7 @@ namespace MobileiaPosnet.Services.VX520
             _command = "54 45 53";
         }
 
-        public new string WriteData(string hex)
+        public override string WriteData(string hex)
         {
             // Inicia el servicio
             if (_numStep == 0)
@@ -30,7 +30,14 @@ namespace MobileiaPosnet.Services.VX520
                 }
             }else if (_numStep == 2)
             {
-                if (hex.CompareTo("06 02 54 45 53 30 30 31 00 00 03 70") == 0)
+                if (hex.CompareTo("06 ") == 0)
+                {
+                    _numStep++;
+                    return "06";
+                }
+            }else if (_numStep == 3)
+            {
+                if (hex.CompareTo("02 54 45 53 30 30 31 00 00 03 70 ") == 0)
                 {
                     _numStep++;
                     _listener.complete(true, "");

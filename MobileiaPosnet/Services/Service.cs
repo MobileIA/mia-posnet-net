@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MobileiaPosnet.Services
 {
-    public class Service
+    abstract public class Service
     {
         /// <summary>
         /// Representa en que estado esta el servicio.
@@ -30,10 +30,8 @@ namespace MobileiaPosnet.Services
             _listener = listener;
         }
 
-        public string WriteData(string hex)
-        {
-            return "";
-        }
+        abstract public string WriteData(string hex);
+
         /// <summary>
         /// Funcion que devuelve el parametro de inicio del servicio
         /// </summary>

@@ -12,5 +12,10 @@ namespace MobileiaPosnet.Services.VX520
         {
 
         }
+
+        public override string WriteData(string hex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
