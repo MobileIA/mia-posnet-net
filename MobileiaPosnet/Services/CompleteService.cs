@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileiaPosnet
+namespace MobileiaPosnet.Services
 {
-    public class Vx520 : Posnet
+    public interface CompleteService
     {
-
+        void complete(bool success, string data);
     }
 }

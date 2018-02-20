@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using MobileiaPosnet.Services;
 
 namespace MobileiaPosnet
 {
-    class Posnet
+    public class Posnet
     {
         /// <summary>
         /// Almacena instancia del puerto
@@ -25,6 +26,15 @@ namespace MobileiaPosnet
             // asignamos el evento para recibir la informacion desde el puerto
             comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
+        /// <summary>
+        /// Funcion que se encarga de ejecutar un servicio
+        /// </summary>
+        /// <param name="service"></param>
+        public void ExecuteService(Service service)
+        {
+
+        }
+
         /// <summary>
         /// Funcion que se encarga de abrir el puerto
         /// </summary>

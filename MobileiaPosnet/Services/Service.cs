@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileiaPosnet
+namespace MobileiaPosnet.Services
 {
-    class Service
+    public class Service
     {
         /// <summary>
         /// Representa en que estado esta el servicio.
@@ -16,6 +16,15 @@ namespace MobileiaPosnet
         /// Determina el numero total de pasos para ejecurtar elservicio
         /// </summary>
         protected int _totalStep = 0;
+        /// <summary>
+        /// Almacena el escuchador para cuando termina de ejecutarse el servicio
+        /// </summary>
+        protected CompleteService _listener;
+
+        public Service(CompleteService listener)
+        {
+            _listener = listener;
+        }
 
         public string WriteData(string hex)
         {
