@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 
 namespace MobileiaPosnetUWP
 {
-    class Posnet
+    public class Posnet
     {
         /// <summary>
         /// El dispositivo conectado
