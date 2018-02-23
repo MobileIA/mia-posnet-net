@@ -13,6 +13,11 @@ namespace MobileiaPosnetUWP.Services.VX520
 
         }
 
+        public override uint BytesToRead()
+        {
+            throw new NotImplementedException();
+        }
+
         public override string WriteData(string hex)
         {
             throw new NotImplementedException();

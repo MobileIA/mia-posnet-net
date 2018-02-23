@@ -32,6 +32,8 @@ namespace MobileiaPosnetUWP.Services
 
         abstract public string WriteData(string hex);
 
+        abstract public uint BytesToRead();
+
         /// <summary>
         /// Funcion que devuelve el parametro de inicio del servicio
         /// </summary>

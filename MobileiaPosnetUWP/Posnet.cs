@@ -51,6 +51,13 @@ namespace MobileiaPosnetUWP
 
         public void WriteAsync(string msg)
         {
+            // Verificar si el mensaje no es nulo
+            if (msg == null || msg.Length == 0)
+            {
+                // Cerrar puerto
+                ClosePort();
+                return;
+            }
             byte[] bytes = HexToByte(msg);
             WriteAsync(bytes);
         }
@@ -62,6 +69,8 @@ namespace MobileiaPosnetUWP
         /// <param name="data">Array of data byes to be written</param>
         public async void WriteAsync(byte[] data)
         {
+            if (this.IsOpen == false) return;
+
             // Write block of data to serial port
             this.dataWriterObject.WriteBytes(data);
 
@@ -69,7 +78,30 @@ namespace MobileiaPosnetUWP
             await this.dataWriterObject.StoreAsync();
 
             // Flush the data out to the serial device now
-            await this.dataWriterObject.FlushAsync();
+            //await this.dataWriterObject.FlushAsync();
+
+            // Esperar medio segundo para esperar la respuesta
+            System.Threading.Tasks.Task.Delay(500).Wait();
+
+            // Recibimos respueta
+            ReadAsync(currentService.BytesToRead());
+        }
+
+        public void ReadAsync(uint buffer)
+        {
+            uint bytes = BytesToRead(buffer);
+            if (bytes > 0)
+            {
+                List<Byte> values = new List<byte>();
+                while (dataReaderObject.UnconsumedBufferLength > 0)
+                {
+                    byte undato = dataReaderObject.ReadByte();
+                    values.Add(undato);
+                }
+                string hex = ByteToHex(values.ToArray());
+
+                WriteAsync(currentService.WriteData(hex));
+            }
         }
 
         /// <summary>

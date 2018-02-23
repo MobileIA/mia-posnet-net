@@ -9,5 +9,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Button Content="Test Conexion" Click="Button_Click"></Button>
+        <TextBlock x:Name="TextoTest" HorizontalAlignment="Left" Margin="654,552,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Page>

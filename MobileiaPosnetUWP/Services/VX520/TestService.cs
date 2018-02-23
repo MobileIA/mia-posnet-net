@@ -50,5 +50,23 @@ namespace MobileiaPosnetUWP.Services.VX520
 
             return null;
         }
+
+        public override uint BytesToRead()
+        {
+            if(_numStep == 1)
+            {
+                return 1;
+            }
+            else if (_numStep == 2)
+            {
+                return 1;
+            }
+            else if(_numStep == 3)
+            {
+                return 11;
+            }
+
+            return 0;
+        }
     }
 }

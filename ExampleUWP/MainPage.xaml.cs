@@ -34,13 +34,13 @@ namespace ExampleUWP
 
         public void complete(bool success, string data)
         {
-            Vx520 device = new Vx520();
-            device.ExecuteService(new TestService(listener: this));
+            TextoTest.Text = "Se completo la tarea: " + data;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Vx520 device = new Vx520();
+            device.ExecuteService(new TestService(listener: this));
         }
     }
 }
