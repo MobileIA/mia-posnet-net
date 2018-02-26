@@ -89,6 +89,10 @@ namespace MobileiaPosnetUWP
 
         public void ReadAsync(uint buffer)
         {
+            if (buffer == 0)
+            {
+                return;
+            }
             // Limpiamos variable de respueta
             dataResponseCurrent = "";
             // Creamos variable para esperar la respuesta
@@ -115,9 +119,10 @@ namespace MobileiaPosnetUWP
                     // Verificar si el servicio requiere una respueta mas larga
                     if (!currentService.IsWaitingResponse(dataResponseCurrent))
                     {
-                        WriteAsync(currentService.WriteData(dataResponseCurrent));
                         // Ya se recibio la respuesta
                         waitingReply = false;
+                        // Enviar la respuesta
+                        WriteAsync(currentService.WriteData(dataResponseCurrent));
                     }
 
                 }
