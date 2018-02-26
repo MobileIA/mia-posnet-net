@@ -33,6 +33,7 @@ namespace MobileiaPosnetUWP
         /// Almacena el servicio que se esta ejecutando
         /// </summary>
         private Service currentService;
+        private string dataResponseCurrent = "";
 
 
         /// <summary>
@@ -69,7 +70,10 @@ namespace MobileiaPosnetUWP
         /// <param name="data">Array of data byes to be written</param>
         public async void WriteAsync(byte[] data)
         {
-            if (this.IsOpen == false) return;
+            if (this.IsOpen == false)
+            {
+                return;
+            }
 
             // Write block of data to serial port
             this.dataWriterObject.WriteBytes(data);
@@ -80,27 +84,43 @@ namespace MobileiaPosnetUWP
             // Flush the data out to the serial device now
             //await this.dataWriterObject.FlushAsync();
 
-            // Esperar medio segundo para esperar la respuesta
-            System.Threading.Tasks.Task.Delay(500).Wait();
-
-            // Recibimos respueta
             ReadAsync(currentService.BytesToRead());
         }
 
         public void ReadAsync(uint buffer)
         {
-            uint bytes = BytesToRead(buffer);
-            if (bytes > 0)
+            // Limpiamos variable de respueta
+            dataResponseCurrent = "";
+            // Creamos variable para esperar la respuesta
+            bool waitingReply = true;
+            // Creamos un bucle
+            while (waitingReply)
             {
-                List<Byte> values = new List<byte>();
-                while (dataReaderObject.UnconsumedBufferLength > 0)
-                {
-                    byte undato = dataReaderObject.ReadByte();
-                    values.Add(undato);
-                }
-                string hex = ByteToHex(values.ToArray());
+                // Esperar medio segundo para recibir la data correctamente
+                //System.Threading.Tasks.Task.Delay(500).Wait();
 
-                WriteAsync(currentService.WriteData(hex));
+                uint bytes = BytesToRead(buffer);
+                if (bytes > 0)
+                {
+                    List<Byte> values = new List<byte>();
+                    while (dataReaderObject.UnconsumedBufferLength > 0)
+                    {
+                        byte undato = dataReaderObject.ReadByte();
+                        values.Add(undato);
+                    }
+                    string hex = ByteToHex(values.ToArray());
+
+                    // Acumular respuesta 
+                    dataResponseCurrent += hex;
+                    // Verificar si el servicio requiere una respueta mas larga
+                    if (!currentService.IsWaitingResponse(dataResponseCurrent))
+                    {
+                        WriteAsync(currentService.WriteData(dataResponseCurrent));
+                        // Ya se recibio la respuesta
+                        waitingReply = false;
+                    }
+
+                }
             }
         }
 

@@ -111,8 +111,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CompleteService.cs" />
     <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\VX520\CompleteVentaService.cs" />
     <Compile Include="Services\VX520\ServiceVX520.cs" />
     <Compile Include="Services\VX520\TestService.cs" />
+    <Compile Include="Services\VX520\VentaService.cs" />
     <Compile Include="Vx520.cs" />
     <EmbeddedResource Include="Properties\MobileiaPosnetUWP.rd.xml" />
   </ItemGroup>

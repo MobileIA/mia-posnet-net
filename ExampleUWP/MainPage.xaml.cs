@@ -23,7 +23,7 @@ namespace ExampleUWP
     /// <summary>
     /// Página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, CompleteService
+    public sealed partial class MainPage : Page, CompleteVentaService
     {
         public MainPage()
         {
@@ -32,15 +32,16 @@ namespace ExampleUWP
             Vx520.Config("COM3", 19200, Windows.Devices.SerialCommunication.SerialParity.None, Windows.Devices.SerialCommunication.SerialStopBitCount.One, 8);
         }
 
-        public void complete(bool success, string data)
+        public void onCompleteSell(string code, string message, string client, string card)
         {
-            TextoTest.Text = "Se completo la tarea: " + data;
+            TextoTest.Text = "Se completo la tarea: " + code + " - " + message + " - " + client + " - " + card;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Vx520 device = new Vx520();
-            device.ExecuteService(new TestService(listener: this));
+            VentaService service = new VentaService(this, 100);
+            device.ExecuteService(service);
         }
     }
 }
