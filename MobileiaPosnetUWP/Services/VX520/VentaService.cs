@@ -20,7 +20,33 @@ namespace MobileiaPosnetUWP.Services.VX520
 
         private string AmountToHex()
         {
-            return StringToHex("000000000100");
+            // Convertimos total en string
+            string amount = _amount.ToString();
+            int startpunto = amount.IndexOf(",");
+            if (startpunto > 0)
+            {
+                string entero = amount.Substring(0, startpunto);
+                string decimals = amount.Substring(startpunto + 1);
+                if (decimals.Length == 2)
+                {
+                    amount = entero + decimals;
+                }
+                else
+                {
+                    amount = entero + decimals + "0";
+                }
+            }
+            else
+            {
+                amount = amount + "00";
+            }
+            // Recorremos hasta completar con 12 digitos
+            while (amount.Length != 12)
+            {
+                amount = "0" + amount;
+            }
+
+            return StringToHex(amount);
         }
 
         private string InvoiceToHex()
