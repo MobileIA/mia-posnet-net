@@ -45,8 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CompleteService.cs" />
     <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\VX520\CompleteVentaService.cs" />
     <Compile Include="Services\VX520\ServiceVx520.cs" />
     <Compile Include="Services\VX520\TestService.cs" />
+    <Compile Include="Services\VX520\VentaService.cs" />
     <Compile Include="Vx520.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

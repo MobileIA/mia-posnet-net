@@ -13,6 +13,18 @@ namespace MobileiaPosnet.Services.VX520
 
         }
 
+        public ServiceVx520() { }
+
+        public override uint BytesToRead()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsWaitingResponse(string hex)
+        {
+            throw new NotImplementedException();
+        }
+
         public override string WriteData(string hex)
         {
             throw new NotImplementedException();
