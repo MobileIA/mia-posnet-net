@@ -14,6 +14,7 @@ namespace MobileiaPosnet.Services.VX520
         public VentaService(CompleteVentaService listener, double amount)
         {
             _listenerSell = listener;
+            _listener = this;
             //setListener(this);
             _amount = amount;
         }
