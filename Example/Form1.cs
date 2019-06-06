@@ -22,6 +22,7 @@ namespace Example
             // Configurar parametros por default
             MobileiaPosnet.Vx520.Config("COM9", "19200", "None", "One", "8");
             device = new MobileiaPosnet.Vx520();
+            device.OpenPort();
         }
 
         public void onCompleteSell(string code, string message, string client, string card)

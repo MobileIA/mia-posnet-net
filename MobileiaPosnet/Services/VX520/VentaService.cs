@@ -83,8 +83,8 @@ namespace MobileiaPosnet.Services.VX520
                 if (hex.CompareTo("06 ") == 0)
                 {
                     _numStep++;
-                    //return "02 56 45 4E 68 00 30 30 30 30 30 30 30 30 30 31 30 30 31 30 30 30 30 30 30 38 39 30 31 32 30 31 30 56 49 30 30 30 30 30 30 30 30 30 30 30 30 30 30 33 36 35 39 33 30 37 20 20 20 20 20 20 20 50 52 49 53 4D 41 20 4D 50 20 20 20 20 20 20 20 20 20 20 20 20 20 20 33 30 2D 35 39 38 39 31 30 30 34 2D 35 20 20 20 20 20 20 20 20 20 20 01 03 11";
-                    return "02 " + // STX
+                    return "02 56 45 4E 68 00 30 30 30 30 30 30 30 30 30 31 30 30 31 30 30 30 30 30 30 38 39 30 31 32 30 31 30 56 49 30 30 30 30 30 30 30 30 30 30 30 30 30 30 33 36 35 39 33 30 37 20 20 20 20 20 20 20 50 52 49 53 4D 41 20 4D 50 20 20 20 20 20 20 20 20 20 20 20 20 20 20 33 30 2D 35 39 38 39 31 30 30 34 2D 35 20 20 20 20 20 20 20 20 20 20 01 03 11";
+                    /*return "02 " + // STX
                         "56 45 4E " + // VEN
                         "68 00 " + // LEN tamaño en la cantidad de campos/parametros a enviar en este caso 104bytes
                         AmountToHex() + // Monto de la venta 12 bytes
@@ -97,16 +97,32 @@ namespace MobileiaPosnet.Services.VX520
                         LocalNameToHex() + // Nomber del comercio
                         CuitToHex() + // CUIT del comercio
                         "01 " + // Si es online o offline
-                        "03 11";
+                        "03 11";*/
                 }
             }
             else if (_numStep == 2)
+            {
+                _numStep++;
+                return "Waiting";
+            }
+            else if (_numStep == 3)
             {
                 _numStep++;
                 // Obtener datos de la transaccion
                 _listener.complete(true, hex);
                 return "06";
             }
+            else if (_numStep == 4)
+            {
+                _numStep++;
+                return "";
+            }
+            else if (_numStep == 5)
+            {
+                _numStep++;
+                return "";
+            }
+
 
             return null;
         }

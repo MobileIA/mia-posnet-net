@@ -21,21 +21,24 @@ namespace MobileiaPosnet.Services.VX520
             {
                 _numStep++;
                 return StartCommand();
-            }else if (_numStep == 1)
+            }
+            else if (_numStep == 1)
             {
                 if (hex.CompareTo("06 ") == 0)
                 {
                     _numStep++;
                     return "02 54 45 53 00 00 03 41";
                 }
-            }else if (_numStep == 2)
+            }
+            else if (_numStep == 2)
             {
                 if (hex.CompareTo("06 ") == 0)
                 {
                     _numStep++;
                     return "06";
                 }
-            }else if (_numStep == 3)
+            }
+            else if (_numStep == 3)
             {
                 if (hex.CompareTo("02 54 45 53 30 30 31 00 00 03 70 ") == 0)
                 {

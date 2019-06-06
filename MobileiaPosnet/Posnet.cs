@@ -20,6 +20,8 @@ namespace MobileiaPosnet
         /// </summary>
         private Service currentService;
 
+        int testNumber = 0;
+
         public Posnet()
         {
             // Seteamos la configuracion por defecto del puerto
@@ -28,6 +30,8 @@ namespace MobileiaPosnet
             comPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), _stopBits);
             comPort.Parity = (Parity)Enum.Parse(typeof(Parity), _parity);
             comPort.PortName = _portName;
+            comPort.ReadTimeout = 60000;
+            comPort.WriteTimeout = 60000;
             // asignamos el evento para recibir la informacion desde el puerto
             comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
@@ -117,7 +121,7 @@ namespace MobileiaPosnet
                 comPort.Write(newMsg, 0, newMsg.Length);
                 //convert back to hex and display
                 string hex = ByteToHex(newMsg);
-                
+
             }
             catch (FormatException ex)
             {
@@ -133,25 +137,29 @@ namespace MobileiaPosnet
         /// <param name="e"></param>
         void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            // Esperar medio segundo para recibir la data correctamente
+            //Thread.Sleep(500);
             //retrieve number of bytes in the buffer
             int bytes = comPort.BytesToRead;
             //create a byte array to hold the awaiting data
             byte[] comBuffer = new byte[bytes];
             //read the data and store it
             comPort.Read(comBuffer, 0, bytes);
-            // Esperar medio segundo para recibir la data correctamente
-            Thread.Sleep(500);
-            String hexResponse = ByteToHex(comBuffer);
-            // Verificar si el servicio requiere una respueta mas larga
-            if (!currentService.IsWaitingResponse(hexResponse))
-            {
-                // Ya se recibio la respuesta
-                //waitingReply = false;
-                Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
-                comPort_SendData(currentService.WriteData(ByteToHex(comBuffer)));
-            }
-            //display the data to the user
             
+            String hexResponse = ByteToHex(comBuffer);
+            Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
+            String hexSend = currentService.WriteData(ByteToHex(comBuffer));
+
+            if (hexSend.CompareTo("Waiting") == 0)
+            {
+                return;
+            }
+                comPort_SendData(hexSend);
+            
+                
+            //display the data to the user
+            testNumber++;
+
         }
 
         #region HexToByte
