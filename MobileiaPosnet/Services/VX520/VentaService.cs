@@ -56,17 +56,17 @@ namespace MobileiaPosnet.Services.VX520
 
         private string LocalCodeToHex()
         {
-            return StringToHex("03659307       "); // 15
+            return StringToHex("14127043       "); // 15
         }
 
         private string LocalNameToHex()
         {
-            return StringToHex("PRISMA MP              "); // 23
+            return StringToHex("GULCH                  "); // 23
         }
 
         private string CuitToHex()
         {
-            return StringToHex("30-59891004-5          "); // 23
+            return StringToHex("30-71599725-4          "); // 23
         }
 
         public override string WriteData(string hex)
