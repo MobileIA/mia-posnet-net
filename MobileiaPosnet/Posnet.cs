@@ -141,9 +141,17 @@ namespace MobileiaPosnet
             comPort.Read(comBuffer, 0, bytes);
             // Esperar medio segundo para recibir la data correctamente
             Thread.Sleep(500);
+            String hexResponse = ByteToHex(comBuffer);
+            // Verificar si el servicio requiere una respueta mas larga
+            if (!currentService.IsWaitingResponse(hexResponse))
+            {
+                // Ya se recibio la respuesta
+                //waitingReply = false;
+                Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
+                comPort_SendData(currentService.WriteData(ByteToHex(comBuffer)));
+            }
             //display the data to the user
-            Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
-            comPort_SendData(currentService.WriteData(ByteToHex(comBuffer)));
+            
         }
 
         #region HexToByte
