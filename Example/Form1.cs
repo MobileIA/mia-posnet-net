@@ -21,6 +21,8 @@ namespace Example
             InitializeComponent();
             // Configurar parametros por default
             MobileiaPosnet.Vx520.Config("COM9", "19200", "None", "One", "8");
+            MobileiaPosnet.Vx520.ConfigLocal("44089", "GULCH", "30-71725-4");
+            //MobileiaPosnet.Vx520.ConfigLocal("03659307", "PRISMA MP", "30-59891004-5");
             device = new MobileiaPosnet.Vx520();
             device.OpenPort();
         }
@@ -38,8 +40,7 @@ namespace Example
         {
             double amount = 30;
 
-            
-            device.ExecuteService(new VentaService(listener: this, amount: amount));
+            device.ExecuteService(new VentaService(listener: this, amount: 1));
             //device.ExecuteService(new TestService(listener: this));
         }
 

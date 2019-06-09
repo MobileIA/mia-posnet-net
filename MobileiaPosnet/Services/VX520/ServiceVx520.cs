@@ -29,5 +29,23 @@ namespace MobileiaPosnet.Services.VX520
         {
             throw new NotImplementedException();
         }
+
+        public string SumarXOR(String hex)
+        {
+            string[] hexArray = hex.Split(' ');
+            int result = 0;
+            for (int i = 0; i < hexArray.Length; i++)
+            {
+                string h = hexArray[i];
+                if (i == 0)
+                {
+                    result = Convert.ToInt32(h, 16);
+                    continue;
+                }
+                int dec = Convert.ToInt32(h, 16);
+                result = result ^ dec;
+            }
+            return result.ToString("X");
+        }
     }
 }

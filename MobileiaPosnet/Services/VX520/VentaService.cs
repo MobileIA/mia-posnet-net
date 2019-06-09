@@ -52,22 +52,44 @@ namespace MobileiaPosnet.Services.VX520
 
         private string InvoiceToHex()
         {
-            return StringToHex("100000089012");
+            String invoice = "100000089012";
+            while (invoice.Length != 12)
+            {
+                invoice = "0" + invoice;
+            }
+
+            return StringToHex(invoice);
+            //return StringToHex("100000089012");
         }
 
         private string LocalCodeToHex()
         {
-            return StringToHex("14127043       "); // 15
+            String code = Posnet.localCode;
+            while (code.Length != 15)
+            {
+                code = code + " ";
+            }
+            return StringToHex(code);
         }
 
         private string LocalNameToHex()
         {
-            return StringToHex("GULCH                  "); // 23
+            String name = Posnet.localName;
+            while (name.Length != 23)
+            {
+                name = name + " ";
+            }
+            return StringToHex(name);
         }
 
         private string CuitToHex()
         {
-            return StringToHex("30-71599725-4          "); // 23
+            String cuit = Posnet.localCuit;
+            while (cuit.Length != 23)
+            {
+                cuit = cuit + " ";
+            }
+            return StringToHex(cuit);
         }
 
         public override string WriteData(string hex)
@@ -83,26 +105,30 @@ namespace MobileiaPosnet.Services.VX520
                 if (hex.CompareTo("06 ") == 0)
                 {
                     _numStep++;
-                    return "02 56 45 4E 68 00 30 30 30 30 30 30 30 30 30 31 30 30 31 30 30 30 30 30 30 38 39 30 31 32 30 31 30 56 49 30 30 30 30 30 30 30 30 30 30 30 30 30 30 33 36 35 39 33 30 37 20 20 20 20 20 20 20 50 52 49 53 4D 41 20 4D 50 20 20 20 20 20 20 20 20 20 20 20 20 20 20 33 30 2D 35 39 38 39 31 30 30 34 2D 35 20 20 20 20 20 20 20 20 20 20 01 03 11";
-                    /*return "02 " + // STX
-                        "56 45 4E " + // VEN
+                    //return "02 56 45 4E 68 00 30 30 30 30 30 30 30 30 30 31 30 30 31 30 30 30 30 30 30 38 39 30 31 32 30 31 30 56 49 30 30 30 30 30 30 30 30 30 30 30 30 30 30 33 36 35 39 33 30 37 20 20 20 20 20 20 20 50 52 49 53 4D 41 20 4D 50 20 20 20 20 20 20 20 20 20 20 20 20 20 20 33 30 2D 35 39 38 39 31 30 30 34 2D 35 20 20 20 20 20 20 20 20 20 20 01 03 11";
+                    String codeHex = "56 45 4E " + // VEN
                         "68 00 " + // LEN tamaño en la cantidad de campos/parametros a enviar en este caso 104bytes
                         AmountToHex() + // Monto de la venta 12 bytes
                         InvoiceToHex() + // Numero de la factura 12bytes
                         "30 31 " + // Cantidad de cuotas: 01
-                        "30 56 49 " + // Codigo de tarjeta: VVI (este permite todas las tarjetas)
+                        "30 56 49 " + // Codigo de tarjeta: VVI: 30 56 49 (este permite todas las tarjetas) VI: 
                         "30 " + // Codigo del plan
                         "30 30 30 30 30 30 30 30 30 30 30 30 " + // Monto de propina
                         LocalCodeToHex() + // Codigo del comercio
                         LocalNameToHex() + // Nomber del comercio
                         CuitToHex() + // CUIT del comercio
                         "01 " + // Si es online o offline
-                        "03 11";*/
+                        "03";
+                    return "02 " + /*STX*/ codeHex + " " + SumarXOR(codeHex);
                 }
             }
             else if (_numStep == 2)
             {
                 _numStep++;
+                if (hex.CompareTo("15 ") == 0)
+                {
+                    return "06";
+                }
                 return "Waiting";
             }
             else if (_numStep == 3)
@@ -168,6 +194,14 @@ namespace MobileiaPosnet.Services.VX520
 
         public void complete(bool success, string data)
         {
+            // Respuesta Comercion Invalido
+            // 02 56 45 4E 30 30 30 70 00 30 33 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 30 30 30 30 30 30 30 30 30 30 30 30 33 30 30 31 43 41 4D 49 4C 45 54 54 49 2F 4D 41 54 49 41 53 20 4E 4F 20 20 20 20 20 20 20 39 38 30 30 34 35 34 36 34 30 30 39 2F 30 36 2F 32 30 31 39 31 34 3A 31 38 3A 31 39 31 34 31 32 37 30 34 33 03 75
+            // Respuesta cancelacion por el usuario
+            if (data.CompareTo("02 56 45 4E 32 30 31 00 00 03 6D ") == 0)
+            {
+                _listenerSell.onCompleteSell("99", "El usuario ha cancelado", "", "");
+                return;
+            }
             // Verificar si se obtuvieron los datos correctamente
             if (data.Length < 124)
             {

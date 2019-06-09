@@ -111,17 +111,12 @@ namespace MobileiaPosnet
                 return;
             }
 
-            Console.WriteLine("Mensaje enviado: " + msg);
-
             try
             {
                 //convert the message to byte array
                 byte[] newMsg = HexToByte(msg);
                 //send the message to the port
                 comPort.Write(newMsg, 0, newMsg.Length);
-                //convert back to hex and display
-                string hex = ByteToHex(newMsg);
-
             }
             catch (FormatException ex)
             {
@@ -147,7 +142,7 @@ namespace MobileiaPosnet
             comPort.Read(comBuffer, 0, bytes);
             
             String hexResponse = ByteToHex(comBuffer);
-            Console.WriteLine("Mensaje recibido: " + ByteToHex(comBuffer));
+
             String hexSend = currentService.WriteData(ByteToHex(comBuffer));
 
             if (hexSend.CompareTo("Waiting") == 0)
@@ -225,6 +220,17 @@ namespace MobileiaPosnet
             _parity = parity;
             _stopBits = stopBits;
             _dataBits = dataBits;
+        }
+
+        public static string localCode = string.Empty;
+        public static string localName = string.Empty;
+        public static string localCuit = string.Empty;
+
+        public static void ConfigLocal(string code, string name, string cuit)
+        {
+            localCode = code;
+            localName = name;
+            localCuit = cuit;
         }
     }
 }
