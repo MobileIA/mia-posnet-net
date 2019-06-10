@@ -10,6 +10,7 @@ namespace MobileiaPosnet.Services.VX520
     {
         protected double _amount;
         protected CompleteVentaService _listenerSell;
+        protected String paymentMethod = "0VI";
 
         public VentaService(CompleteVentaService listener, double amount)
         {
@@ -17,6 +18,36 @@ namespace MobileiaPosnet.Services.VX520
             _listener = this;
             //setListener(this);
             _amount = amount;
+        }
+
+        public void SetPaymentVisa()
+        {
+            paymentMethod = "0VI";
+        }
+
+        public void SetPaymentVisaDebito()
+        {
+            paymentMethod = "0EL";
+        }
+
+        public void SetPaymentMastercard()
+        {
+            paymentMethod = "0MC";
+        }
+
+        public void SetPaymentMastercard2()
+        {
+            paymentMethod = "0PD";
+        }
+
+        public void SetPaymentMaestro()
+        {
+            paymentMethod = "0MA";
+        }
+
+        public void SetPaymentCabal()
+        {
+            paymentMethod = "0CA";
         }
 
         private string AmountToHex()
@@ -111,7 +142,7 @@ namespace MobileiaPosnet.Services.VX520
                         AmountToHex() + // Monto de la venta 12 bytes
                         InvoiceToHex() + // Numero de la factura 12bytes
                         "30 31 " + // Cantidad de cuotas: 01
-                        "30 56 49 " + // Codigo de tarjeta: VVI: 30 56 49 (este permite todas las tarjetas) VI: 
+                        StringToHex(paymentMethod) + // Codigo de tarjeta: VVI: 30 56 49 (este permite todas las tarjetas) VI: 
                         "30 " + // Codigo del plan
                         "30 30 30 30 30 30 30 30 30 30 30 30 " + // Monto de propina
                         LocalCodeToHex() + // Codigo del comercio
