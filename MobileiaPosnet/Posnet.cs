@@ -49,6 +49,12 @@ namespace MobileiaPosnet
             comPort_SendData(currentService.WriteData(""));
         }
 
+        public void CancelService()
+        {
+            comPort_SendData("06");
+
+        }
+
         /// <summary>
         /// Funcion que se encarga de abrir el puerto
         /// </summary>
@@ -118,7 +124,7 @@ namespace MobileiaPosnet
                 //send the message to the port
                 comPort.Write(newMsg, 0, newMsg.Length);
             }
-            catch (FormatException ex)
+            catch (Exception ex)
             {
                 //display error message
                 Console.WriteLine(ex.Message);
