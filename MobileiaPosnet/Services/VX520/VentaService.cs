@@ -50,6 +50,11 @@ namespace MobileiaPosnet.Services.VX520
             paymentMethod = "0CA";
         }
 
+        public void SetPaymentAmex()
+        {
+            paymentMethod = "0AM";
+        }
+
         private string AmountToHex()
         {
             // Convertimos total en string

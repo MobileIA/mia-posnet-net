@@ -52,7 +52,6 @@ namespace MobileiaPosnet
         public void CancelService()
         {
             comPort_SendData("06");
-
         }
 
         /// <summary>
