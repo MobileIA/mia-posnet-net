@@ -249,27 +249,27 @@ namespace MobileiaPosnet.Services.VX520
             // Procesar informacion y enviar al listener de venta con los parametros
             string start = data.Substring(0, 10 * 2);
             // codigo de respuesta
-            string codeResponse = data.Substring(10 * 2, 2 * 2);
+            string codeResponse = data.Substring(9 * 2, 2 * 2);
             // Mensaje de respuesta
-            string messageResponse = data.Substring(12 * 2, 32 * 2);
+            string messageResponse = data.Substring(11 * 2, 32 * 2);
             // codigo de autorizacion
-            string codeAuthorization = data.Substring(44 * 2, 6 * 2);
+            string codeAuthorization = data.Substring(43 * 2, 6 * 2);
             // Numero de cupon
-            string nroCupon = data.Substring(50 * 2, 7 * 2);
+            string nroCupon = data.Substring(49 * 2, 7 * 2);
             // numero de lote
-            string nroLote = data.Substring(57 * 2, 3 * 2);
+            string nroLote = data.Substring(56 * 2, 3 * 2);
             // Nombre del cliente
-            string client = data.Substring(60 * 2, 26 * 2);
+            string client = data.Substring(59 * 2, 26 * 2);
             // Ultimos 4 digitos de la tarjeta
-            string card = data.Substring(86 * 2, 4 * 2);
+            string card = data.Substring(85 * 2, 4 * 2);
             // Primeros 6 digitos de la tarjeta
-            string firstCard = data.Substring(90 * 2, 6 * 2);
+            string firstCard = data.Substring(89 * 2, 6 * 2);
             // Fecha de transaccion
-            string date = data.Substring(96 * 2, 10 * 2);
+            string date = data.Substring(95 * 2, 10 * 2);
             // hora de la transaccion
-            string hour = data.Substring(106 * 2, 8 * 2);
+            string hour = data.Substring(105 * 2, 8 * 2);
             // Terminal ID
-            string terminalId = data.Substring(114 * 2, 8 * 2);
+            string terminalId = data.Substring(113 * 2, 8 * 2);
             // Enviar al listener
             _listenerSell.onCompleteSell(FromHex(codeResponse), FromHex(messageResponse), FromHex(client), FromHex(card));
         }
